@@ -17,19 +17,22 @@ public class MeasurementValidator implements Validator {
         this.sensorService = sensorService;
     }
 
+    //show spring which entity need to validate
     @Override
     public boolean supports(Class<?> clazz) {
-        return Measurement.class.equals(clazz);
+        return Measurement.class.equals(clazz); //supports only measurement validation
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         Measurement measurement =  (Measurement) target;
 
-        if(measurement.getSensor()==null){
+        //no sensor
+        if(measurement.getSensor() == null){
             return;
         }
-        if (sensorService.findByName(measurement.getSensor().getName()).isEmpty())
+        //some sensor exists, then check was it registered?
+        if (sensorService.findByName(measurement.getSensor().getName()).isEmpty()) //unregister sensor
             errors.rejectValue("sensor", "Sensor with such name doesn't exist");
     }
 }

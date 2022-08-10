@@ -38,28 +38,31 @@ public class MeasurementsController {
         this.modelMapper = modelMapper;
     }
 
+    //add new measurement from sensor
     @PostMapping("/add")
     public ResponseEntity<HttpStatus> add(@RequestBody @Valid MeasurementDTO measurementDTO,
                                           BindingResult bindingResult){
         Measurement measurementForAdd =  convertToMeasurement(measurementDTO);
-
         measurementValidator.validate(measurementForAdd, bindingResult);
-        if (bindingResult.hasErrors())
+
+        if (bindingResult.hasErrors()) //some errors
             returnErrorsToClient(bindingResult);
 
-        measurementService.addMeasurement(measurementForAdd);
+        measurementService.addMeasurement(measurementForAdd);//everything is OK
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    //convert DTO->object
     private Measurement convertToMeasurement(MeasurementDTO measurementDTO) {
         return modelMapper.map(measurementDTO, Measurement.class);
     }
 
+    //convert object->DTO
     private MeasurementDTO convertToMeasurementDTO(Measurement measurement) {
         return modelMapper.map(measurement, MeasurementDTO.class);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler //catch Measurement Exception, need to send to client "bad request" response
     private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementException e) {
         MeasurementErrorResponse response = new MeasurementErrorResponse(
                 e.getMessage(),
@@ -70,7 +73,7 @@ public class MeasurementsController {
 
     @GetMapping("/show")
     public MeasurementsResponse getMeasurements() {
-        //collect list of objects to single object for transfer
+        //collect list of objects TO SINGLE OBJECT for transfer
         return new MeasurementsResponse(measurementService.findAll().stream().map(this::convertToMeasurementDTO)
                 .collect(Collectors.toList()));
     }

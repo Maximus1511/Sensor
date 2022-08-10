@@ -17,16 +17,17 @@ public class SensorValidator implements Validator {
         this.sensorService = sensorService;
     }
 
+    //show spring which entity need to validate
     @Override
     public boolean supports(Class<?> clazz) {
-        return Sensor.class.equals(clazz);
+        return Sensor.class.equals(clazz); //supports only sensor validation
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         Sensor sensor = (Sensor) target;
 
-        if (sensorService.findByName(sensor.getName()).isPresent())
-            errors.rejectValue("name", "Sensor already exists");
+        if (sensorService.findByName(sensor.getName()).isPresent())//name found, means already exists
+            errors.rejectValue("name", "Sensor already exists");//add some text to errors
     }
 }

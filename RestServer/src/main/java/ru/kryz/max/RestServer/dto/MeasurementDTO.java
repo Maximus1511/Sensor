@@ -1,10 +1,14 @@
 package ru.kryz.max.RestServer.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class MeasurementDTO {
 
     @NotNull
+    @Min(-200)
+    @Max(200)
     private Double value;
 
     @NotNull

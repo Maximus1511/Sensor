@@ -3,6 +3,8 @@ package ru.kryz.max.RestServer.models;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,8 +18,10 @@ public class Measurement {
 
     @Column(name = "value")
     @NotNull
-    //use wrap Double under "double", because if data lost i want see NULL,
-    //not just 0.0 like it would be with primitive double
+    /*use wrap Double under "double", because if data lost i want see NULL,
+    not just 0.0 like it would be with primitive double*/
+    @Min(-200)
+    @Max(200)
     private Double value;
 
     @Column(name = "raining")

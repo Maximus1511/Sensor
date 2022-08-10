@@ -14,12 +14,11 @@ import ru.kryz.max.RestServer.util.MeasurementException;
 import ru.kryz.max.RestServer.util.SensorValidator;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static ru.kryz.max.RestServer.util.ErrorsUtil.returnErrorsToClient;
 
-@RestController
+@RestController //methods don't return views, return data
 @RequestMapping("/sensors")
 public class SensorsController {
 
@@ -35,11 +34,6 @@ public class SensorsController {
         this.sensorValidator = sensorValidator;
     }
 
-    //converter DTO->object
-    private Sensor convertToSensor(SensorDTO sensorDTO){
-        return modelMapper.map(sensorDTO, Sensor.class);
-    }
-
     //if want to success sensor
     @PostMapping("/registration")
     public ResponseEntity<HttpStatus> registration(@RequestBody @Valid SensorDTO sensorDTO,
@@ -47,11 +41,16 @@ public class SensorsController {
         Sensor sensorForAdd =  convertToSensor(sensorDTO);//convert from DTO to Sensor object
         sensorValidator.validate(sensorForAdd, bindingResult);//validate converted object
 
-        if(bindingResult.hasErrors()){
-            returnErrorsToClient(bindingResult);//some errors, some invalid request
+        if(bindingResult.hasErrors()){ //some errors, some invalid request
+            returnErrorsToClient(bindingResult);
         }
         sensorService.register(sensorForAdd);// everything is ok, register new sensor
         return ResponseEntity.ok(HttpStatus.OK);//http response with empty body and status 200
+    }
+
+    //converter DTO->object
+    private Sensor convertToSensor(SensorDTO sensorDTO){
+        return modelMapper.map(sensorDTO, Sensor.class);
     }
 
     @ExceptionHandler //catch Measurement Exception, need to send to client "bad request" response
@@ -65,5 +64,4 @@ public class SensorsController {
     public List<Sensor> getSensors(){
         return sensorService.findAll();
     }
-
 }

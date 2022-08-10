@@ -1,15 +1,16 @@
 package ru.kryz.max.RestServer.models;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "Sensor")
 public class Sensor implements Serializable {
-    //need such implementation of Serializible
-    // because name (type String) is foreign key. Not Id (Integer) like it usually was.
+    /*need implementation of Serializible!
+    because name (type String) is foreign key. Not Id (Integer) like it usually was.
+    Hibernate works with int keys by default*/
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +18,7 @@ public class Sensor implements Serializable {
 
     @NotEmpty(message = "Input some name")
     @Column(name = "name")
+    @Size(min = 3, max  =  40, message = "Sensor name should be between 3 to 40 characters")
     private String name;
 
     public Sensor() {

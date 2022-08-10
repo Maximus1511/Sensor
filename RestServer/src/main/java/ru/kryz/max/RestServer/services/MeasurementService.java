@@ -27,7 +27,8 @@ public class MeasurementService {
     }
 
     public void enrichMeasurement(Measurement measurement) {
-        //i should find sensor from db and insert object from Hibernate persistence context
+       /* from JSON we have just String, no data in persistence context. This "just String" i
+        have to find in db, and after "findByName" sensor is in persistence context*/
         measurement.setSensor(sensorService.findByName(measurement.getSensor().getName()).get());
 
         measurement.setMeasurementDateTime(LocalDateTime.now());
