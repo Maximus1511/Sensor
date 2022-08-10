@@ -1,0 +1,27 @@
+1. Register new sensor
+
+POST/sensors/registration
+JSON:
+{
+"name": "Some name"
+}
+
+2. Add measurements from sensor
+
+POST/meas/add
+JSON:
+{
+"value": 12.3,
+"raining": false,
+"sensor":
+	{
+	"name": "Corresponding sensor name"
+	}
+}
+
+3. Get Measurement
+GET/meas/show
+
+4. Get count rainy days
+
+Get/meas/rainyDaysCount

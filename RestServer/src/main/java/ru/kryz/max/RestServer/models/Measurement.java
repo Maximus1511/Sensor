@@ -1,8 +1,6 @@
 package ru.kryz.max.RestServer.models;
 
-
 import com.sun.istack.NotNull;
-import org.hibernate.annotations.NotFound;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
