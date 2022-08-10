@@ -2,6 +2,7 @@ package ru.kryz.max.RestServer.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
@@ -14,6 +15,7 @@ public class Sensor implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotEmpty(message = "Input some name")
     @Column(name = "name")
     private String name;
 
