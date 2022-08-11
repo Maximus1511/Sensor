@@ -8,3 +8,6 @@ Here i created REST API Service, which can obtain data from "sensor".
 For more details see RestServerDescription.txt
 
 I've initialized this project with https://start.spring.io/
+
+Also there is a simple client console application, where user can register new sensor and add
+some measurements. Get requests we can do using any browser.
